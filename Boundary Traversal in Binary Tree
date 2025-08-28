@@ -1,0 +1,93 @@
+/*
+class Node
+{
+    int data;
+    Node left, right;
+
+    public Node(int d)
+    {
+        data = d;
+        left = right = null;
+    }
+}
+*/
+
+class Solution {
+    
+    boolean isLeaf(Node node){
+        if(node.left==null && node.right==null)
+        return true;
+        
+        return false;
+    }
+    ArrayList<Integer> boundaryTraversal(Node node) {
+        // code here
+        ArrayList<Integer> ans= new ArrayList<Integer>();
+    
+    // for root node
+        if(isLeaf(node)==false)
+           ans.add(node.data);
+    
+    // for left part first
+     addLeftBoundary(node,ans);
+     
+     // for leaves
+     addLeaves(node,ans);
+        
+        //at last right part 
+        
+    addRightBoundary(node,ans);  
+    
+    return ans;
+    }
+    
+    void addLeftBoundary(Node root, ArrayList<Integer> ans){
+        Node node= root.left;
+        while(node!=null){
+        
+        if(isLeaf(node)==false)
+          ans.add(node.data);
+          
+        if(node.left!=null)
+          node=node.left;
+        else
+          node= node.right;
+        
+        }
+            
+    }
+    
+    void addRightBoundary(Node root, ArrayList<Integer> ans){
+        Node node=root.right;
+        ArrayList<Integer> tmp= new ArrayList<Integer>();
+        while(node!=null){
+            if(isLeaf(node)==false)
+              tmp.add(node.data);
+            if(node.right!=null)
+               node= node.right;
+            else
+               node=node.left;
+               
+        }
+        
+        int i;
+        for(i=tmp.size()-1;i>=0;i--){
+            ans.add(tmp.get(i));
+            
+        }
+    }
+    
+    void addLeaves(Node root, ArrayList<Integer> ans){
+        if(isLeaf(root))
+        {
+            ans.add(root.data);
+            return;
+        }
+        
+        if(root.left!=null)
+        addLeaves(root.left,ans);
+        
+        if(root.right!=null)
+        addLeaves(root.right,ans);
+    }
+}
