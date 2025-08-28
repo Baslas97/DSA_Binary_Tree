@@ -1,0 +1,51 @@
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        // List to hold tuples of (column, row, value)
+        List<Tuple> nodes = new ArrayList<>();
+        
+        // DFS helper to traverse tree and collect node info
+        dfs(root, 0, 0, nodes);
+        
+        // Sort by column, then row, then node value
+        Collections.sort(nodes, (a, b) -> {
+            if (a.col != b.col)
+                return Integer.compare(a.col, b.col);
+            if (a.row != b.row)
+                return Integer.compare(a.row, b.row);
+            return Integer.compare(a.val, b.val);
+        });
+        
+        List<List<Integer>> result = new ArrayList<>();
+        int prevCol = Integer.MIN_VALUE;
+        
+        // Group nodes by column after sorting
+        for (Tuple t : nodes) {
+            if (t.col != prevCol) {
+                result.add(new ArrayList<>());
+                prevCol = t.col;
+            }
+            result.get(result.size() - 1).add(t.val);
+        }
+        
+        return result;
+    }
+    
+    private void dfs(TreeNode node, int row, int col, List<Tuple> nodes) {
+        if (node == null) return;
+        nodes.add(new Tuple(col, row, node.val));
+        dfs(node.left, row + 1, col - 1, nodes);
+        dfs(node.right, row + 1, col + 1, nodes);
+    }
+    
+    // Helper class to hold column, row, and node value
+    private static class Tuple {
+        int col, row, val;
+        public Tuple(int col, int row, int val) {
+            this.col = col;
+            this.row = row;
+            this.val = val;
+        }
+    }
+}
