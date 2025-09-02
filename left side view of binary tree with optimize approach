@@ -1,0 +1,35 @@
+/*
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}*/
+class Solution {
+    ArrayList<Integer> leftView(Node root) {
+        // code here
+        ArrayList<Integer> list= new ArrayList<Integer>();
+        if(root==null)
+        return list;
+        
+        helper(root, list,0);
+        return list;
+        
+    }
+    
+    void helper(Node root, ArrayList<Integer> list, int level){
+        if(root==null)
+        return;
+        
+        if(list.size()==level)
+        list.add(root.data);
+        
+        helper(root.left,list,level+1);
+        helper(root.right,list,level+1);
+    }
+}
