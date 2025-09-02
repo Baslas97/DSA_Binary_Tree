@@ -1,0 +1,46 @@
+class Solution {
+    public int numberOfPairs(int[][] points) {
+        int n = points.length;
+        int count=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(j==i)
+                continue;
+
+                boolean flag= true;
+                int topleftX=points[i][0];
+                int topleftY= points[i][1];
+                
+                int bottomRightX=points[j][0];
+                int bottomRightY=points[j][1];
+
+                if(topleftX>bottomRightX)
+                continue;
+
+                if(topleftY<bottomRightY)
+                continue;
+
+                for(int k=0;k<n;k++){
+                    if(k==i||k==j)
+                    continue;
+
+                    if(points[k][0]>=topleftX &&
+                       points[k][0]<=bottomRightX &&
+                       points[k][1]<=topleftY &&
+                       points[k][1]>=bottomRightY){
+                        flag =false;
+                        break;
+                       }
+                }
+                if(flag){
+                    count++;
+                }
+
+                
+            }
+        }
+
+        return count;
+
+    }
+}
